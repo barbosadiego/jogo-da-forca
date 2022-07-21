@@ -16,5 +16,6 @@ export default {
 <style scoped>
 .forca img{
   width: 100px;
+  margin-bottom: 50px;
 }
 </style>

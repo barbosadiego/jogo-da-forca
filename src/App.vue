@@ -21,6 +21,8 @@
       <section v-if="tela === 'jogo'" id="jogo">
         <Jogo 
           :erros="erros"
+          :palavra="palavra"
+          :dica="dica"
         />
       </section>
 
@@ -90,6 +92,7 @@ h1 {
 .game-container{
   display: grid;
   gap: 30px;
+  text-align: center;
 }
 #jogo{
   text-align: center;
