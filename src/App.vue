@@ -3,8 +3,8 @@
     <div class="game-container">
       <h1>Jogo da Forca</h1>
 
-      <section v-if="tela === 'inicio'" >
-        <Formulario 
+      <section v-if="tela === 'inicio'">
+        <Formulario
           v-if="etapa === 'palavra'"
           texto="Defina a Palavra"
           button="Próximo"
@@ -14,52 +14,64 @@
           v-if="etapa === 'dica'"
           texto="Defina a Dica"
           button="Iniciar Jogo"
-          :action='setDica'
-        />
-      </section>
-      
-      <section v-if="tela === 'jogo'" id="jogo">
-        <Jogo 
-          :erros="erros"
-          :palavra="palavra"
-          :dica="dica"
+          :action="setDica"
         />
       </section>
 
+      <section v-if="tela === 'jogo'" id="jogo">
+        <Jogo
+          :erros="erros"
+          :palavra="palavra"
+          :dica="dica"
+          :verificarLetra="verificarLetra"
+          :etapa="etapa"
+          :letras="letras"
+          :jogar="jogar"
+        />
+      </section>
     </div>
   </div>
 </template>
 
 <script>
 import Formulario from '@/components/Formulario.vue';
-import Jogo from '@/components/Jogo.vue'
+import Jogo from '@/components/Jogo.vue';
 
 export default {
   name: 'App',
-  data(){
-    return{
+  data() {
+    return {
       tela: 'inicio',
       etapa: 'palavra',
       palavra: '',
       dica: '',
       erros: 0,
-    }
+      letras: [],
+    };
   },
   components: {
     Formulario,
     Jogo,
   },
   methods: {
-    setPalavra(palavra){
+    setPalavra(palavra) {
       this.palavra = palavra;
       this.etapa = 'dica';
     },
-    setDica(dica){
+    setDica(dica) {
       this.dica = dica;
       this.etapa = 'jogo';
       this.tela = 'jogo';
-    }
-  }
+    },
+    verificarLetra(letra) {
+      return this.letras.find(
+        (item) => item.toLowerCase() === letra.toLowerCase(),
+      );
+    },
+    jogar(letra) {
+      this.letras.push(letra);
+    },
+  },
 };
 </script>
 
@@ -89,13 +101,16 @@ body {
 h1 {
   color: var(--color-text-title);
 }
-.game-container{
+.game-container {
   display: grid;
   gap: 30px;
   text-align: center;
 }
-#jogo{
+#jogo {
   text-align: center;
   color: var(--color-text-light);
+}
+button:hover {
+  opacity: 0.8;
 }
 </style>
