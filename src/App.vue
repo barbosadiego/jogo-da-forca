@@ -2,8 +2,26 @@
   <div id="app">
     <div class="game-container">
       <h1>Jogo da Forca</h1>
-      <Formulario />
-      <Formulario />
+
+      <section v-if="tela === 'inicio'" >
+        <Formulario 
+          v-if="etapa === 'palavra'"
+          texto="Defina a Palavra"
+          button="Próximo"
+          :action="setPalavra"
+        />
+        <Formulario
+          v-if="etapa === 'dica'"
+          texto="Defina a Dica"
+          button="Iniciar Jogo"
+          :action='setDica'
+        />
+      </section>
+      
+      <section v-if="tela === 'jogo'" id="jogo">
+        Jogo
+      </section>
+
     </div>
   </div>
 </template>
@@ -13,9 +31,28 @@ import Formulario from '@/components/Formulario.vue';
 
 export default {
   name: 'App',
+  data(){
+    return{
+      tela: 'inicio',
+      etapa: 'palavra',
+      palavra: '',
+      dica: '',
+    }
+  },
   components: {
     Formulario,
   },
+  methods: {
+    setPalavra(palavra){
+      this.palavra = palavra;
+      this.etapa = 'dica';
+    },
+    setDica(dica){
+      this.dica = dica;
+      this.etapa = 'jogo';
+      this.tela = 'jogo';
+    }
+  }
 };
 </script>
 
@@ -48,5 +85,9 @@ h1 {
 .game-container{
   display: grid;
   gap: 30px;
+}
+#jogo{
+  text-align: center;
+  color: var(--color-text-light);
 }
 </style>
