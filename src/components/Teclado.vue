@@ -35,9 +35,7 @@ export default {
 }
 .tecla {
   display: grid;
-  place-items: center;
   width: 30px;
-  height: 30px;
   background-color: var(--color-background-button);
   border-radius: 3px;
   cursor: pointer;

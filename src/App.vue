@@ -27,6 +27,7 @@
           :etapa="etapa"
           :letras="letras"
           :jogar="jogar"
+          :jogarNovamente="jogarNovamente"
         />
       </section>
     </div>
@@ -70,7 +71,31 @@ export default {
     },
     jogar(letra) {
       this.letras.push(letra);
+      this.verificarErros(letra);
     },
+    verificarErros(letra) {
+      if (this.palavra.toLowerCase().indexOf(letra.toLowerCase()) >= 0) {
+        return this.verificarAcertos();
+      }
+      this.erros++;
+      if (this.erros === 6) {
+        this.etapa = 'enforcado';
+      }
+    },
+    verificarAcertos() {
+      let letrasUnicas = [...new Set(this.palavra.split(''))]
+      if(letrasUnicas.length === (this.letras.length - this.erros)){
+        this.etapa = 'ganhador'
+      }
+    },
+    jogarNovamente(){
+      this.palavra = '';
+      this.dica = '';
+      this.erros = 0;
+      this.letras = [];
+      this.tela = 'inicio';
+      this.etapa = 'palavra';
+    }
   },
 };
 </script>
@@ -109,6 +134,15 @@ h1 {
 #jogo {
   text-align: center;
   color: var(--color-text-light);
+}
+button{
+  background-color: var(--color-background-button);
+  border: none;
+  color: var(--color-text-light);
+  padding: 15px 10px;
+  font-size: 1rem;
+  border-radius: 5px;
+  cursor: pointer;
 }
 button:hover {
   opacity: 0.8;
